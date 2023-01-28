@@ -51,14 +51,14 @@ int s21_sprintf(char *str, const char *format, ...) {
     va_list predarg;
     va_start(predarg, format);
     // printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
-    printf("bukva4  === %c\n", znach.specificator);
-    printf("dlina=1= %ld\n", znach.shirina.col_simvolov);
+    //printf("bukva4  === %c\n", znach.specificator);
+    //printf("dlina=1= %ld\n", znach.shirina.col_simvolov);
 
     // znach.shirina.col_simvolov = 0;
-    printf("zwezda-2===12 %d\n", znach.shirina.zwezda);
-    printf("dlina== %ld\n", znach.shirina.col_simvolov);
-    printf("bukva3  = %c\n", znach.specificator);
-    printf("struct %d\n", znach.flagi.plus);
+    //printf("zwezda-2===12 %d\n", znach.shirina.zwezda);
+    //printf("dlina== %ld\n", znach.shirina.col_simvolov);
+    //printf("bukva3  = %c\n", znach.specificator);
+    //printf("struct %d\n", znach.flagi.plus);
   }
   return 1;
 }
