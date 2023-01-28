@@ -43,6 +43,8 @@ int main() {
 int s21_sprintf(char *str, const char *format, ...) {
   int i = 1;
   printf("str%s\n", str);
+  printf("i = %d\n", i);
+  /*
   // это все в цикле
   while (i >= 0) {
     i = pars_format(format, i);
@@ -50,35 +52,37 @@ int s21_sprintf(char *str, const char *format, ...) {
     str = "lol";
     va_list predarg;
     va_start(predarg, format);
-    // printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
-    //printf("bukva4  === %c\n", znach.specificator);
-    //printf("dlina=1= %ld\n", znach.shirina.col_simvolov);
+*/
+    printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
+    printf("bukva4  === %c\n", znach.specificator);
+    printf("dlina=1= %ld\n", znach.shirina.col_simvolov);
 
     // znach.shirina.col_simvolov = 0;
-    //printf("zwezda-2===12 %d\n", znach.shirina.zwezda);
-    //printf("dlina== %ld\n", znach.shirina.col_simvolov);
-    //printf("bukva3  = %c\n", znach.specificator);
-    //printf("struct %d\n", znach.flagi.plus);
+    printf("zwezda-2===12 %d\n", znach.shirina.zwezda);
+    printf("dlina== %ld\n", znach.shirina.col_simvolov);
+    printf("bukva3  = %c\n", znach.specificator);
+    printf("struct %d\n", znach.flagi.plus);/*
   }
   return 1;
 }
 
-int pars_format(const char *format, int i) {
-  printf("zwezda-1===$$$ %d\n", znach.shirina.zwezda);
+int pars_format(const char *format, int i) {*/
+  // printf("zwezda-1===$$$ %d\n", znach.shirina.zwezda);
   struct danno_format znach = {{0, 0, 0, 0, 0}, {0, 0}, {0, 0}, 0, 0};
-  printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
+  // printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
   int wixod = 0;
   // i++;
-  printf("pizda\n");
-  while (/*(format[i] != '%')*/ (wixod == 0) && (format[i] != '\0')) {
-    printf("pizda2\n");
+  // printf("pizda\n");
+  while (/*(format[i] != '%') (wixod == 0)*/ format[i] != '\0') {
+    // printf("pizda2\n");
+    printf("i = %d\n", i);
     switch (format[i]) {
       case '-':
         znach.flagi.minus = 1;
         break;
       case '+':
         znach.flagi.plus = 1;
-        printf("struct123=== %d\n", znach.flagi.plus);
+        // printf("struct123=== %d\n", znach.flagi.plus);
         break;
       case ' ':
         znach.flagi.space = 1;
@@ -90,21 +94,21 @@ int pars_format(const char *format, int i) {
         if ((format[i - 1] >= '0') && (format[i - 1] <= '9')) {
           znach.shirina.col_simvolov =
               (znach.shirina.col_simvolov * 10) + (format[i] - '0');
-          printf("dlina2;' %ld\n", znach.shirina.col_simvolov);
+          // printf("dlina2;' %ld\n", znach.shirina.col_simvolov);
           i++;
         } else {
           znach.flagi.nool = 1;
-          printf("struct22 %d\n", znach.flagi.nool);
+          // printf("struct22 %d\n", znach.flagi.nool);
           break;
         }
       case '1' ... '9':
         znach.shirina.col_simvolov =
             (znach.shirina.col_simvolov * 10) + (format[i] - '0');
-        printf("dlina %ld\n", znach.shirina.col_simvolov);
+        // printf("dlina %ld\n", znach.shirina.col_simvolov);
         break;
       case '*':
         znach.shirina.zwezda = 1;
-        printf("zwezda-2=== %d\n", znach.shirina.zwezda);
+        // printf("zwezda-2=== %d\n", znach.shirina.zwezda);
         break;
       case '.':
         i++;
@@ -119,8 +123,8 @@ int pars_format(const char *format, int i) {
           }
           i--;
         }
-        printf("chislo %d\n", znach.tochnost.chislo);
-        printf("zwezda %d\n", znach.tochnost.zwezda);
+        // printf("chislo %d\n", znach.tochnost.chislo);
+        // printf("zwezda %d\n", znach.tochnost.zwezda);
         break;
       case 'h':
         znach.dlina = format[i];
@@ -133,11 +137,12 @@ int pars_format(const char *format, int i) {
         break;
       case 'c':
         znach.specificator = format[i];
-        printf("bukva %c\n", znach.specificator);
+        swjaz()
+        // printf("bukva %c\n", znach.specificator);
         break;
       case 'd':
         znach.specificator = format[i];
-        printf("bukva2 %c\n", znach.specificator);
+        // printf("bukva2 %c\n", znach.specificator);
         break;
       case 'i':
         znach.specificator = format[i];
@@ -182,8 +187,8 @@ int pars_format(const char *format, int i) {
         if (format[i - 1] == '%') {
           znach.specificator = format[i];
           // i++;
-          printf("i2%d\n", i);
-          printf("prozent %c\n", znach.specificator);
+          // printf("i2%d\n", i);
+          // printf("prozent %c\n", znach.specificator);
         }
         wixod = 1;
         // проnисать обнуление переменной колличества символов
