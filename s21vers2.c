@@ -29,11 +29,11 @@ int main() {
   char *str = NULL;
   // char *str1 = NULL;
   const char *format = "%c%35.24d%*c%%";  //+0102.*d
-  char uno_str = 'd';
-  int duo_str = 2;
+  char uno_str = {'s'};
+ int duo_str = 96;
   double trio_str = 1.21;
 
-  s21_sprintf(str, format, uno_str, duo_str, trio_str);
+  s21_sprintf(str, format, duo_str, uno_str, trio_str);
 
   // sprintf(str1, "%s%d%f", uno_str, duo_str, trio_str);
 
@@ -140,11 +140,12 @@ int pars_format(const char *format, int i) {*/
       case 'c':
         znach.specificator = format[i];
         n = 1;
-        printf("1 %c", va_arg(predarg, int));
-        char str1 = va_arg(predarg, int);
-        printf("1 %c", str1);
+        // printf("11 %d|\n", va_arg(predarg, int));
+        int str1 = va_arg(predarg, int);
+        // putc(str1,char str2);
+        // printf("12= %d\n", str1);
         str = swjaz(n, str1);
-        printf("1 %s", str);
+        printf("13 %s\n", str);
         // printf("bukva %c\n", znach.specificator);
         break;
       case 'd':
@@ -214,8 +215,9 @@ int pars_format(const char *format, int i) {*/
 }
 
 char* swjaz(int n, ...) {
-va_list predarg;
-    va_start(predarg, n);
-printf("1 %c", va_arg(predarg, int));
-return va_arg(predarg, char*);
+  char * dev = {"d"};
+va_list pre;
+    va_start(pre, n);
+printf("1 %d\n", va_arg(pre, int));
+return dev;
 }
