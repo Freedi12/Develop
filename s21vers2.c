@@ -3,7 +3,8 @@
 #include <string.h>
 
 int s21_sprintf(char *str, const char *format, ...);
-int pars_format(const char *format, int i);
+// int pars_format(const char *format, int i);
+char* swjaz(int n, ...);
 
 struct danno_format {
   struct {
@@ -27,8 +28,8 @@ struct danno_format znach;
 int main() {
   char *str = NULL;
   // char *str1 = NULL;
-  const char *format = "%+234.31c%35.24d%*c%%";  //+0102.*d
-  char *uno_str = "d";
+  const char *format = "%c%35.24d%*c%%";  //+0102.*d
+  char uno_str = 'd';
   int duo_str = 2;
   double trio_str = 1.21;
 
@@ -42,6 +43,7 @@ int main() {
 
 int s21_sprintf(char *str, const char *format, ...) {
   int i = 1;
+  int n;
   printf("str%s\n", str);
   printf("i = %d\n", i);
   /*
@@ -49,10 +51,10 @@ int s21_sprintf(char *str, const char *format, ...) {
   while (i >= 0) {
     i = pars_format(format, i);
     printf("i = %d\n", i);
-    str = "lol";
+    str = "lol";*/
     va_list predarg;
     va_start(predarg, format);
-*/
+
     printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
     printf("bukva4  === %c\n", znach.specificator);
     printf("dlina=1= %ld\n", znach.shirina.col_simvolov);
@@ -70,7 +72,7 @@ int pars_format(const char *format, int i) {*/
   // printf("zwezda-1===$$$ %d\n", znach.shirina.zwezda);
   struct danno_format znach = {{0, 0, 0, 0, 0}, {0, 0}, {0, 0}, 0, 0};
   // printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
-  int wixod = 0;
+  // int wixod = 0;
   // i++;
   // printf("pizda\n");
   while (/*(format[i] != '%') (wixod == 0)*/ format[i] != '\0') {
@@ -137,7 +139,12 @@ int pars_format(const char *format, int i) {*/
         break;
       case 'c':
         znach.specificator = format[i];
-        swjaz()
+        n = 1;
+        printf("1 %c", va_arg(predarg, int));
+        char str1 = va_arg(predarg, int);
+        printf("1 %c", str1);
+        str = swjaz(n, str1);
+        printf("1 %s", str);
         // printf("bukva %c\n", znach.specificator);
         break;
       case 'd':
@@ -190,7 +197,7 @@ int pars_format(const char *format, int i) {*/
           // printf("i2%d\n", i);
           // printf("prozent %c\n", znach.specificator);
         }
-        wixod = 1;
+        // wixod = 1;
         // проnисать обнуление переменной колличества символов
         /* code */
         break;
@@ -202,5 +209,13 @@ int pars_format(const char *format, int i) {*/
   if (format[i] == '\0') {
     i = -1;
   }
+  va_end (predarg);
   return i;
+}
+
+char* swjaz(int n, ...) {
+va_list predarg;
+    va_start(predarg, n);
+printf("1 %c", va_arg(predarg, int));
+return va_arg(predarg, char*);
 }
