@@ -1,10 +1,10 @@
 #include <stdarg.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-int s21_sprintf(char *str, const char *format, ...);
-// int pars_format(const char *format, int i);
-char* swjaz(int n, ...);
+char s21_sprintf(char *str, const char *format, ...);
+char *swjaz(char n);
 
 struct danno_format {
   struct {
@@ -26,65 +26,31 @@ struct danno_format {
 struct danno_format znach;
 
 int main() {
-  char *str = NULL;
-  // char *str1 = NULL;
-  const char *format = "%c%35.24d%*c%%";  //+0102.*d
+  char str[1024];
+  // char str1[1024];
+  const char *format = "%12c";  //%-12c%+35.24d%e
   char uno_str = {'s'};
- int duo_str = 96;
-  double trio_str = 1.21;
+  // int duo_str = 2;
+  // double trio_str = 1.21;
 
-  s21_sprintf(str, format, duo_str, uno_str, trio_str);
-
-  // sprintf(str1, "%s%d%f", uno_str, duo_str, trio_str);
-
-  printf("s21_f= %s\n", str);
-  // printf("stand_f= %s", str1);
+  s21_sprintf(str, format,  uno_str/*duo_str,, trio_str*/);
+  // sprintf(str1, "%-12c", uno_str /*duo_str, trio_str*/);
+  printf("%s\n", str);
+  // printf("%s\n", str1);
 }
 
-int s21_sprintf(char *str, const char *format, ...) {
+char s21_sprintf(char *str, const char *format, ...) {
   int i = 1;
-  int n;
-  printf("str%s\n", str);
-  printf("i = %d\n", i);
-  /*
-  // это все в цикле
-  while (i >= 0) {
-    i = pars_format(format, i);
-    printf("i = %d\n", i);
-    str = "lol";*/
-    va_list predarg;
-    va_start(predarg, format);
-
-    printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
-    printf("bukva4  === %c\n", znach.specificator);
-    printf("dlina=1= %ld\n", znach.shirina.col_simvolov);
-
-    // znach.shirina.col_simvolov = 0;
-    printf("zwezda-2===12 %d\n", znach.shirina.zwezda);
-    printf("dlina== %ld\n", znach.shirina.col_simvolov);
-    printf("bukva3  = %c\n", znach.specificator);
-    printf("struct %d\n", znach.flagi.plus);/*
-  }
-  return 1;
-}
-
-int pars_format(const char *format, int i) {*/
-  // printf("zwezda-1===$$$ %d\n", znach.shirina.zwezda);
-  struct danno_format znach = {{0, 0, 0, 0, 0}, {0, 0}, {0, 0}, 0, 0};
-  // printf("zwezda-2===$$$ %d\n", znach.shirina.zwezda);
-  // int wixod = 0;
-  // i++;
-  // printf("pizda\n");
-  while (/*(format[i] != '%') (wixod == 0)*/ format[i] != '\0') {
-    // printf("pizda2\n");
-    printf("i = %d\n", i);
+  char *str1;
+  va_list predarg;
+  va_start(predarg, format);
+  while (format[i] != '\0') {
     switch (format[i]) {
       case '-':
         znach.flagi.minus = 1;
         break;
       case '+':
         znach.flagi.plus = 1;
-        // printf("struct123=== %d\n", znach.flagi.plus);
         break;
       case ' ':
         znach.flagi.space = 1;
@@ -96,27 +62,22 @@ int pars_format(const char *format, int i) {*/
         if ((format[i - 1] >= '0') && (format[i - 1] <= '9')) {
           znach.shirina.col_simvolov =
               (znach.shirina.col_simvolov * 10) + (format[i] - '0');
-          // printf("dlina2;' %ld\n", znach.shirina.col_simvolov);
           i++;
         } else {
           znach.flagi.nool = 1;
-          // printf("struct22 %d\n", znach.flagi.nool);
           break;
         }
       case '1' ... '9':
         znach.shirina.col_simvolov =
             (znach.shirina.col_simvolov * 10) + (format[i] - '0');
-        // printf("dlina %ld\n", znach.shirina.col_simvolov);
         break;
       case '*':
         znach.shirina.zwezda = 1;
-        // printf("zwezda-2=== %d\n", znach.shirina.zwezda);
         break;
       case '.':
         i++;
         if (format[i] == '*') {
           znach.tochnost.zwezda = 1;
-
         } else {
           while ((format[i] >= '0') && (format[i] <= '9')) {
             znach.tochnost.chislo =
@@ -125,8 +86,6 @@ int pars_format(const char *format, int i) {*/
           }
           i--;
         }
-        // printf("chislo %d\n", znach.tochnost.chislo);
-        // printf("zwezda %d\n", znach.tochnost.zwezda);
         break;
       case 'h':
         znach.dlina = format[i];
@@ -138,19 +97,25 @@ int pars_format(const char *format, int i) {*/
         znach.dlina = format[i];
         break;
       case 'c':
-        znach.specificator = format[i];
-        n = 1;
-        // printf("11 %d|\n", va_arg(predarg, int));
-        int str1 = va_arg(predarg, int);
-        // putc(str1,char str2);
-        // printf("12= %d\n", str1);
-        str = swjaz(n, str1);
-        printf("13 %s\n", str);
-        // printf("bukva %c\n", znach.specificator);
+        znach.specificator =
+            format[i];  // нужно ли заполнение спецификатора !?!?!?!?
+        int bol = 0;
+        if (znach.shirina.zwezda == 1) {
+          bol = va_arg(predarg, int);
+          if (bol < 0) {
+            znach.flagi.minus = 1;
+            znach.shirina.col_simvolov = (-1 * bol);
+          } else {
+            znach.shirina.col_simvolov = bol;
+          }
+        }
+        str1 = swjaz(va_arg(predarg, int));
+        strcat(str, str1);
+        memset(&znach, 0, sizeof(znach));
+        free(str1);
         break;
       case 'd':
         znach.specificator = format[i];
-        // printf("bukva2 %c\n", znach.specificator);
         break;
       case 'i':
         znach.specificator = format[i];
@@ -194,13 +159,8 @@ int pars_format(const char *format, int i) {*/
       case '%':
         if (format[i - 1] == '%') {
           znach.specificator = format[i];
-          // i++;
-          // printf("i2%d\n", i);
-          // printf("prozent %c\n", znach.specificator);
         }
-        // wixod = 1;
-        // проnисать обнуление переменной колличества символов
-        /* code */
+
         break;
       default:
         break;
@@ -210,14 +170,29 @@ int pars_format(const char *format, int i) {*/
   if (format[i] == '\0') {
     i = -1;
   }
-  va_end (predarg);
-  return i;
+  va_end(predarg);
+  return *str;
 }
 
-char* swjaz(int n, ...) {
-  char * dev = {"d"};
-va_list pre;
-    va_start(pre, n);
-printf("1 %d\n", va_arg(pre, int));
-return dev;
+char *swjaz(char dev) {
+  char *pri = '\0';
+  if (znach.shirina.col_simvolov == 0) {
+    pri = (char *)malloc(sizeof(10));
+    pri[0] = dev;
+  } else {
+    pri = (char *)malloc(sizeof(znach.shirina.col_simvolov + 1));
+    if (znach.flagi.minus == 1) {
+      pri[0] = dev;
+      for (int i = 1; i < znach.shirina.col_simvolov; i++) {
+        pri[i] = ' ';
+      }
+    } else {
+      for (int i = 0; i < znach.shirina.col_simvolov-1; i++) {
+        pri[i] = ' ';
+      }
+      pri[znach.shirina.col_simvolov-1] = dev;
+    }
+  }
+  // printf("1=/=/==/=/ %c\n", dev);
+  return pri;
 }
