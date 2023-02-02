@@ -5,7 +5,7 @@
 
 int main() {
   char str1[1024];
-  const char *format = "%12c";  //%-12c%+35.24d%e
+  const char *format = "%lc";  //%-12c%+35.24d%e
   char uno_str = {'s'};
 //   int duo_str = 2;
   // double trio_str = 1.21;

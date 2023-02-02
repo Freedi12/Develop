@@ -28,7 +28,7 @@ struct danno_format znach;
 int main() {
   char str[1024];
   // char str1[1024];
-  const char *format = "%12c";  //%-12c%+35.24d%e
+  const char *format = "%c";  //%-12c%+35.24d%e
   char uno_str = {'s'};
   // int duo_str = 2;
   // double trio_str = 1.21;
@@ -41,7 +41,8 @@ int main() {
 
 char s21_sprintf(char *str, const char *format, ...) {
   int i = 1;
-  char *str1;
+  char *str1 = NULL;
+  *str = '\0';
   va_list predarg;
   va_start(predarg, format);
   while (format[i] != '\0') {
@@ -110,9 +111,13 @@ char s21_sprintf(char *str, const char *format, ...) {
           }
         }
         str1 = swjaz(va_arg(predarg, int));
+        // printf("1%s\n", str);
         strcat(str, str1);
         memset(&znach, 0, sizeof(znach));
+        if (str1 != NULL) {
         free(str1);
+        // printf("cool");
+        }
         break;
       case 'd':
         znach.specificator = format[i];
@@ -175,9 +180,9 @@ char s21_sprintf(char *str, const char *format, ...) {
 }
 
 char *swjaz(char dev) {
-  char *pri = '\0';
+  char *pri = "q";
   if (znach.shirina.col_simvolov == 0) {
-    pri = (char *)malloc(sizeof(10));
+    pri = (char *)malloc(2 * sizeof(char));
     pri[0] = dev;
   } else {
     pri = (char *)malloc(sizeof(znach.shirina.col_simvolov + 1));
