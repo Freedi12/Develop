@@ -5,7 +5,7 @@
 
 int main() {
   char str1[1024];
-  const char *format = "%lc%-10d";  //%-12c%+35.24d%e
+  const char *format = "%lc%-010d";  //%-12c%+35.24d%e
   // char uno_str = {'s'};
   wchar_t lc = L'd';
   int duo_str = -2;

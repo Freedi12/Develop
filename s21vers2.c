@@ -35,7 +35,7 @@ int main() {
 
   char str[1024];
   // char str1[1024];
-  const char *format = "%lc%-10d";  //%-12c%+35.24d%e
+  const char *format = "%lc%-010d";  //%-12c%+35.24d%e
   // char uno_str = {'s'};
   wchar_t lc = L'd';
   int duo_str = -2;
@@ -211,12 +211,16 @@ char *fun_d(int n) {
     buf_n = n;
     for (int a = 0; len >= 0; a++) {
       if (znach.flagi.plus == 1) {
-        str_i[0] = '+';
+        if (znach.flagi.nool == 0) {
+      str_i[0] = '+';
+    } else {
+      str_i[0] = '0';
+    }
         znach.shirina.col_simvolov--;
         a++;
       }
       if (znach.flagi.space == 1) {
-        str_i[0] = ' ';
+      str_i[0] = ' ';
         znach.shirina.col_simvolov--;
         a++;
       }
@@ -235,7 +239,11 @@ char *fun_d(int n) {
       buf_n /= 10;
     }
     buf_n = n * (-1);
-    str_i[0] = '-';
+    if (znach.flagi.nool == 0) {
+      str_i[0] = '-';
+    } else {
+      str_i[0] = '0';
+    }
     for (int a = 1; len >= 0; a++) {
       buf = pow(10, len);
       str_i[a] = (buf_n / buf) + '0';
@@ -255,14 +263,33 @@ char *fun_flagi(char *str) {
   int i = 0;
 
   str3 = (char *)malloc(1024 * sizeof(char));
-
+  str2 = (char *)malloc(sizeof(znach.shirina.col_simvolov * 2));
   while (str[i] != '\0') {
     str3[i] = str[i];
     i++;
   }
-  str2 = (char *)malloc(sizeof(znach.shirina.col_simvolov * 2));
-  for (int i = 0; i < znach.shirina.col_simvolov - 1; i++) {
-    str2[i] = ' ';
+  if ((str3[0] != '0') && (znach.flagi.nool ==1)) {
+    str2[0]='0';
+  } else if (str3[0] == '0') {
+    if (str3[0] == ' '){
+      str2[0]=' ';
+      str3[0]= '0';
+    } else if (znach.flagi.plus == 1){
+      str2[0]='+';
+    } else {
+      str2[0] = '-';
+    }
+  } else {
+    str2[0] = ' ';
+  }
+
+  
+  for (int i = 1; i < znach.shirina.col_simvolov - 1; i++) {
+    if (znach.flagi.nool == 0) {
+      str2[i] = ' ';
+    }else{
+      str2[i] = '0';
+    }
   }
   if (znach.flagi.minus == 0) {
     strcat(str2, str3);
